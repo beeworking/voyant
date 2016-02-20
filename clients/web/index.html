@@ -13,12 +13,13 @@
       <input v-model="region">
       <input v-model="provider">
       <button v-on:click="create">Create</button>
-      <button v-on:click="getList">Get</button>
+      <button v-on:click="getList">Get/Update</button>
       <div class="">
         <ul>
           <li v-for="vpn in vpns">
             {{ vpn.name }}
             ({{ vpn.status }})
+            <a download="myvpn.ovpn" href="api/config/download?vpn_id={{vpn.id}}&key={{key}}&provider={{provider}}">Download Config</a>
             <button v-on:click="delete(vpn)">Destroy</button>
           </li>
         </ul>
