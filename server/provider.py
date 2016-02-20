@@ -1,5 +1,7 @@
 class Provider(object):
     """Base provider class"""
+    regions = {}
+
     def __init__(self, key=''):
         self.key = key
 
