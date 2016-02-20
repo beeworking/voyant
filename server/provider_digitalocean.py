@@ -4,6 +4,7 @@ import os
 
 from urllib.request import urlopen
 from .provider import Provider
+from .mongo import mongo
 
 
 class ProviderDigitalOcean(Provider):
@@ -49,7 +50,7 @@ class ProviderDigitalOcean(Provider):
         )
         droplet.create()
 
-        return droplet.id
+        return droplet
 
     def list_servers(self):
         manager = digitalocean.Manager(token=self.key)
@@ -68,9 +69,14 @@ class ProviderDigitalOcean(Provider):
         droplet.destroy()
 
     def get_config(self, server_id):
-        droplet = self.get_droplet(server_id)
-        response = urlopen('https://{}:8080'.format(droplet.ip_address))
-        return response.read()
+        config = mongo.config.find_one({'_id': server_id})
+        if not config:
+            droplet = self.get_droplet(server_id)
+            config = urlopen('https://{}:8080'.format(droplet.ip_address)).read()
+            config = {'_id': server_id, 'config': config}
+            mongo.config.insert(config)
+
+        return config
 
     @staticmethod
     def server_to_json(server):

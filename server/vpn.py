@@ -8,24 +8,24 @@ from .providers import PROVIDERS
 def create_vpn(key, provider, region='EU1'):
     provider = PROVIDERS.get(provider)
     if not provider:
-        raise falcon.HTTPBadRequest('PROVIDER_NOT_FOUND', 'The provider does not exist.'.format(provider))
+        raise falcon.HTTPBadRequest('PROVIDER_NOT_FOUND', 'The provider does not exist.')
 
     provider = provider(key)
 
     region = provider.regions.get(region)
     if not region:
-        raise falcon.HTTPBadRequest('REGION_NOT_FOUND', 'The region does not exist.'.format(region))
+        raise falcon.HTTPBadRequest('REGION_NOT_FOUND', 'The region does not exist.')
 
-    provider.create(region)
+    server = provider.create(region)
 
-    return {'success': True}
+    return provider.server_to_json(server)
 
 
 @hug.get('/')
 def list_vpns(key, provider):
     provider = PROVIDERS.get(provider)
     if not provider:
-        raise falcon.HTTPBadRequest('PROVIDER_NOT_FOUND', 'The provider does not exist.'.format(provider))
+        raise falcon.HTTPBadRequest('PROVIDER_NOT_FOUND', 'The provider does not exist.')
 
     provider = provider(key)
     return [provider.server_to_json(server) for server in provider.list_servers()]
@@ -35,7 +35,7 @@ def list_vpns(key, provider):
 def destroy_vpn(key, provider, vpn_id):
     provider = PROVIDERS.get(provider)
     if not provider:
-        raise falcon.HTTPBadRequest('PROVIDER_NOT_FOUND', 'The provider does not exist.'.format(provider))
+        raise falcon.HTTPBadRequest('PROVIDER_NOT_FOUND', 'The provider does not exist.')
 
     provider = provider(key)
 
@@ -43,18 +43,17 @@ def destroy_vpn(key, provider, vpn_id):
         provider.destroy(vpn_id)
     except:
         raise falcon.HTTPBadRequest('VPN_NOT_FOUND', 'The vpn \'{}\' does not exist.'.format(vpn_id))
-    else:
-        return {'success': True}
+
+    return {'success': True}
 
 
 @hug.get('/config')
 def get_config(key, provider, vpn_id):
     provider = PROVIDERS.get(provider)
     if not provider:
-        raise falcon.HTTPBadRequest('PROVIDER_NOT_FOUND', 'The provider does not exist.'.format(provider))
+        raise falcon.HTTPBadRequest('PROVIDER_NOT_FOUND', 'The provider does not exist.')
 
     provider = provider(key)
+    config = provider.get_config(vpn_id)
 
-    provider.get_config(vpn_id)
-
-    return {'success': True}
+    return config

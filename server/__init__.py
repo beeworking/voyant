@@ -7,6 +7,6 @@ def main():
     return "Hello World !"
 
 
-@hug.extend_api('/vpn')
+@hug.extend_api('/api')
 def vpn_api():
     return [vpn]
