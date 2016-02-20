@@ -5,6 +5,28 @@
     <title>VPN As A Service (VPNAAS)</title>
   </head>
   <body>
-    Hello :)
+    <div id="app">
+      <p>APIKEY: '{{ key }}'</p>
+      <p>REGION: '{{ region }}'</p>
+      <p>PROVIDER: '{{ provider }}'</p>
+      <input v-model="key">
+      <input v-model="region">
+      <input v-model="provider">
+      <button v-on:click="create">Create</button>
+      <button v-on:click="getList">Get</button>
+      <div class="">
+        <ul>
+          <li v-for="vpn in vpns">
+            {{ vpn.name }}
+            ({{ vpn.status }})
+            <button v-on:click="delete(vpn)">Destroy</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <script src="js/vendors/vue.js" charset="utf-8"></script>
+    <!-- <script src="js/vendors/vue-router.js" charset="utf-8"></script> -->
+    <script src="js/vendors/vue-resource.js" charset="utf-8"></script>
+    <script src="js/app.js" charset="utf-8"></script>
   </body>
 </html>
