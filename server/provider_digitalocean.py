@@ -12,7 +12,7 @@ class ProviderDigitalOcean(Provider):
         "AMS1": "ams1",
         "AMS2": "ams2",
         "AMS3": "ams3",
-        "FRA1": "FRA1",
+        "FRA1": "fra1",
         "NYC1": "nyc1",
         "NYC2": "nyc2",
         "NYC3": "nyc3",
@@ -29,7 +29,7 @@ class ProviderDigitalOcean(Provider):
     def get_available_regions_for_docker_image(self):
         manager = digitalocean.Manager(token=self.key)
         dk_image = manager.get_image(self.docker_image_id)
-        return {key: self.regions[key] for key in self.regions.keys() if self.regions[key] in dk_image.regions}
+        return {key: val for key, val in self.regions.iteritems() if val in dk_image.regions}
 
     def create(self, region='nyc2'):
         file_path = os.path.join(os.path.dirname(__file__), '../scripts/setup-openvpn.sh')
