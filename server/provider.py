@@ -14,7 +14,7 @@ class Provider(object):
     def stop(self):
         raise NotImplemented()
 
-    def dstroy(self):
+    def destroy(self):
         raise NotImplemented()
 
     def list_servers(self):
