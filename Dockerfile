@@ -11,6 +11,6 @@ RUN pip3 install -r requirements.txt
 
 ADD . /app/
 
-EXPOSE 5000
+EXPOSE 8000
 
-CMD ["python", "run.py"]
+CMD ["hug", "-f", "/app/server/__init__.py"]
