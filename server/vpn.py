@@ -5,7 +5,7 @@ from .providers import PROVIDERS
 
 
 @hug.get('/')
-def create_vpn(key, provider, region='EUW'):
+def create_vpn(key, provider, region='EU1'):
     provider = PROVIDERS.get(provider)
     if not provider:
         raise falcon.HTTPBadRequest('PROVIDER_NOT_FOUND', 'The provider does not exist.'.format(provider))

@@ -2,10 +2,10 @@ class Provider(object):
     """Base provider class"""
     regions = {}
 
-    def __init__(self, key=''):
+    def __init__(self, key):
         self.key = key
 
-    def create(self, region, name='hello'):
+    def create(self, region):
         raise NotImplemented()
 
     def start(self):

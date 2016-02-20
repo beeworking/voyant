@@ -1,5 +1,5 @@
-from .provider import Provider
+from .provider_digitalocean import ProviderDigitalOcean
 
 PROVIDERS = {
-    'digitalocean': Provider,
+    'digitalocean': ProviderDigitalOcean,
 }
