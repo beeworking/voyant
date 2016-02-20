@@ -72,7 +72,7 @@ class ProviderDigitalOcean(Provider):
         config = mongo.config.find_one({'_id': server_id})
         if not config:
             droplet = self.get_droplet(server_id)
-            config = urlopen('https://{}:8080'.format(droplet.ip_address)).read()
+            config = urlopen('https://{}:8080'.format(droplet.ip_address)).read().decode('utf-8')
             config = {'_id': server_id, 'config': config}
             mongo.config.insert(config)
 

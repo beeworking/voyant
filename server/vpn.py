@@ -61,8 +61,5 @@ def get_config(key, provider, vpn_id):
 
 
 @hug.get('/config/download', output=hug.output_format.text)
-def get_file(vpn_id):
-    config = mongo.config.find_one({'_id': vpn_id})
-
-    config = config.get('config')
-    return config
+def get_file(key, provider, vpn_id):
+    return get_config(key, provider, vpn_id).get('config')
