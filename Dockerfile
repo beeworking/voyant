@@ -13,4 +13,4 @@ ADD . /app/
 
 EXPOSE 8000
 
-CMD ["hug", "-f", "/app/server/__init__.py"]
+CMD ["gunicorn", "--reload", "-b", "0.0.0.0:8000", "-w", "4", "server:__hug_wsgi__"]
