@@ -27,6 +27,9 @@ class Provider(object):
     def status(self):
         raise NotImplemented()
 
+    def get_config(self, server_id):
+        raise NotImplemented()
+
     @staticmethod
     def server_to_json(server):
         raise NotImplemented()

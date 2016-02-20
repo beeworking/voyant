@@ -2,6 +2,7 @@ import uuid
 import digitalocean
 import os
 
+from urllib.request import urlopen
 from .provider import Provider
 
 
@@ -31,6 +32,10 @@ class ProviderDigitalOcean(Provider):
         dk_image = manager.get_image(self.docker_image_id)
         return {key: self.regions[key] for key in self.regions.keys() if self.regions[key] in dk_image.regions}
 
+    def get_droplet(self, server_id):
+        manager = digitalocean.Manager(token=self.key)
+        return manager.get_droplet(server_id)
+
     def create(self, region='nyc2'):
         file_path = os.path.join(os.path.dirname(__file__), '../scripts/setup-openvpn.sh')
         droplet_name = '{}{}'.format(self.droplet_name_prefix, uuid.uuid4())
@@ -52,18 +57,20 @@ class ProviderDigitalOcean(Provider):
         return [droplet for droplet in droplets if self.droplet_name_prefix in droplet.name]
 
     def status(self, server_id):
-        manager = digitalocean.Manager(token=self.key)
-        droplet = manager.get_droplet(server_id)
-
+        droplet = self.get_droplet(server_id)
         actions = droplet.get_actions()
         for action in actions:
             action.load()
             print(action.status)
 
     def destroy(self, server_id):
-        manager = digitalocean.Manager(token=self.key)
-        droplet = manager.get_droplet(server_id)
+        droplet = self.get_droplet(server_id)
         droplet.destroy()
+
+    def get_config(self, server_id):
+        droplet = self.get_droplet(server_id)
+        response = urlopen('https://{}:8080'.format(droplet.ip_address))
+        return response.read()
 
     @staticmethod
     def server_to_json(server):

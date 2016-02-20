@@ -45,3 +45,16 @@ def destroy_vpn(key, provider, vpn_id):
         raise falcon.HTTPBadRequest('VPN_NOT_FOUND', 'The vpn \'{}\' does not exist.'.format(vpn_id))
     else:
         return {'success': True}
+
+
+@hug.get('/config')
+def get_config(key, provider, vpn_id):
+    provider = PROVIDERS.get(provider)
+    if not provider:
+        raise falcon.HTTPBadRequest('PROVIDER_NOT_FOUND', 'The provider does not exist.'.format(provider))
+
+    provider = provider(key)
+
+    provider.get_config(vpn_id)
+
+    return {'success': True}
