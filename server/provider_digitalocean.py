@@ -7,6 +7,7 @@ from .provider import Provider
 
 class ProviderDigitalOcean(Provider):
     docker_image_id = 15751610
+    droplet_name_prefix = 'voyant-'
     regions = {
         "AMS1": "ams1",
         "AMS2": "ams2",
@@ -32,7 +33,7 @@ class ProviderDigitalOcean(Provider):
 
     def create(self, region='nyc2'):
         file_path = os.path.join(os.path.dirname(__file__), '../scripts/setup-openvpn.sh')
-        droplet_name = 'voyant-{}'.format(uuid.uuid4())
+        droplet_name = '{}{}'.format(self.droplet_name_prefix, uuid.uuid4())
 
         with open(file_path, 'r') as f:
             script_str = f.read()
@@ -47,8 +48,8 @@ class ProviderDigitalOcean(Provider):
 
     def list_servers(self):
         manager = digitalocean.Manager(token=self.key)
-
-        return manager.get_all_droplets()
+        droplets = manager.get_all_droplets()
+        return [droplet for droplet in droplets if self.droplet_name_prefix in droplet.name]
 
     def status(self, server_id):
         manager = digitalocean.Manager(token=self.key)
