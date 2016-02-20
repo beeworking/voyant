@@ -5,20 +5,20 @@ class Provider(object):
     def __init__(self, key=''):
         self.key = key
 
-    def create(self):
+    def create(self, region, name='hello'):
         raise NotImplemented()
 
     def start(self):
         raise NotImplemented()
 
-    def stop():
+    def stop(self):
         raise NotImplemented()
 
-    def dstroy():
+    def dstroy(self):
         raise NotImplemented()
 
-    def list_servers():
+    def list_servers(self):
         raise NotImplemented()
 
-    def status():
+    def status(self):
         raise NotImplemented()
