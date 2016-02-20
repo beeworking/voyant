@@ -60,6 +60,11 @@ class ProviderDigitalOcean(Provider):
             action.load()
             print(action.status)
 
+    def destroy(self, server_id):
+        manager = digitalocean.Manager(token=self.key)
+        droplet = manager.get_droplet(server_id)
+        droplet.destroy()
+
     @staticmethod
     def server_to_json(server):
         return {

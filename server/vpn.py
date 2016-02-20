@@ -29,3 +29,19 @@ def list_vpns(key, provider):
 
     provider = provider(key)
     return [provider.server_to_json(server) for server in provider.list_servers()]
+
+
+@hug.delete('/')
+def destroy_vpn(key, provider, vpn_id):
+    provider = PROVIDERS.get(provider)
+    if not provider:
+        raise falcon.HTTPBadRequest('PROVIDER_NOT_FOUND', 'The provider does not exist.'.format(provider))
+
+    provider = provider(key)
+
+    try:
+        provider.destroy(vpn_id)
+    except:
+        raise falcon.HTTPBadRequest('VPN_NOT_FOUND', 'The vpn \'{}\' does not exist.'.format(vpn_id))
+    else:
+        return {'success': True}
