@@ -1,0 +1,4 @@
+falcon==0.3.0
+hug==1.9.9
+python-mimeparse==1.5.1
+six==1.10.0
