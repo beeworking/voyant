@@ -30,7 +30,7 @@ class ProviderDigitalOcean(Provider):
     def get_available_regions_for_docker_image(self):
         manager = digitalocean.Manager(token=self.key)
         dk_image = manager.get_image(self.docker_image_id)
-        return {key: val for key, val in self.regions.iteritems() if val in dk_image.regions}
+        return {key: val for key, val in self.regions.items() if val in dk_image.regions}
 
     def get_droplet(self, server_id):
         manager = digitalocean.Manager(token=self.key)
