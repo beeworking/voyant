@@ -1,6 +1,7 @@
 import falcon
 import hug
 
+from .mongo import mongo
 from .providers import PROVIDERS
 
 
@@ -56,4 +57,12 @@ def get_config(key, provider, vpn_id):
     provider = provider(key)
     config = provider.get_config(vpn_id)
 
+    return config
+
+
+@hug.get('/config/download', output=hug.output_format.text)
+def get_file(vpn_id):
+    config = mongo.config.find_one({'_id': vpn_id})
+
+    config = config.get('config')
     return config
