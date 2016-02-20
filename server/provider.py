@@ -22,3 +22,7 @@ class Provider(object):
 
     def status(self):
         raise NotImplemented()
+
+    @staticmethod
+    def server_to_json(server):
+        raise NotImplemented()

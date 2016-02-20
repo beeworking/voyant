@@ -39,3 +39,12 @@ class ProviderDigitalOcean(Provider):
         for action in actions:
             action.load()
             print(action.status)
+
+    @staticmethod
+    def server_to_json(server):
+        return {
+            'id': server.id,
+            'name': server.name,
+            'status': server.status,
+            'ip_address': server.ip_address,
+        }
