@@ -1,9 +1,13 @@
+import logging
+
+
 class Provider(object):
     """Base provider class"""
     regions = {}
 
     def __init__(self, key):
         self.key = key
+        self.logger = logging.getLogger('Provider')
 
     def create(self, region):
         raise NotImplemented()

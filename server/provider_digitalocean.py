@@ -1,15 +1,34 @@
 import uuid
 import digitalocean
 import os
+
 from .provider import Provider
 
 
 class ProviderDigitalOcean(Provider):
+    docker_image_id = 15751610
     regions = {
-        "EU1": "ams1",
-        "US1": "nyc1",
-        "US2": "nyc2",
+        "AMS1": "ams1",
+        "AMS2": "ams2",
+        "AMS3": "ams3",
+        "FRA1": "FRA1",
+        "NYC1": "nyc1",
+        "NYC2": "nyc2",
+        "NYC3": "nyc3",
+        "SFO1": "sfo1",
+        "SGP1": "sgp1",
+        "LON1": "long1",
+        "TOR1": "tor1"
     }
+
+    def __init__(self, key):
+        super().__init__(key)
+        self.regions = self.get_available_regions_for_docker_image()
+
+    def get_available_regions_for_docker_image(self):
+        manager = digitalocean.Manager(token=self.key)
+        dk_image = manager.get_image(self.docker_image_id)
+        return {key: self.regions[key] for key in self.regions.keys() if self.regions[key] in dk_image.regions}
 
     def create(self, region='nyc2'):
         file_path = os.path.join(os.path.dirname(__file__), '../scripts/setup-openvpn.sh')
@@ -19,7 +38,7 @@ class ProviderDigitalOcean(Provider):
             script_str = f.read()
 
         droplet = digitalocean.Droplet(
-            token=self.key, name=droplet_name, region=region, image=15751610,
+            token=self.key, name=droplet_name, region=region, image=self.docker_image_id,
             size_slug='512mb', backups=False, user_data=script_str
         )
         droplet.create()
