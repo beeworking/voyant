@@ -42,7 +42,8 @@ class ProviderDigitalOcean(Provider):
 
     def create(self, region='nyc2'):
         file_path = os.path.join(os.path.dirname(__file__), '../scripts/setup-openvpn.sh')
-        droplet_name = '{}{}'.format(self.droplet_name_prefix, uuid.uuid4())
+        local_id = uuid.uuid4()
+        droplet_name = '{}{}'.format(self.droplet_name_prefix, local_id)
 
         with open(file_path, 'r') as f:
             script_str = f.read()
@@ -52,6 +53,10 @@ class ProviderDigitalOcean(Provider):
             size_slug='512mb', backups=False, user_data=script_str
         )
         droplet.create()
+
+        server = self.server_to_json(droplet)
+        server.update({'local_id': local_id})
+        mongo.servers.insert_one(server)
 
         return droplet
 
