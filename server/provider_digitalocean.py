@@ -8,6 +8,7 @@ from passlib.hash import bcrypt
 
 from .provider import Provider
 from .mongo import mongo
+from string import Template
 
 
 class ProviderDigitalOcean(Provider):
@@ -47,6 +48,12 @@ class ProviderDigitalOcean(Provider):
 
         with open(file_path, 'r') as f:
             script_str = f.read()
+
+        script_str = Template(script_str).substitute(
+            VOYANT_ROOT_URL=self.hq_root_url,
+            VOYANT_VPN_API_KEY=self.key,
+            VOYANT_VPN_PROVIDER='digitalocean'
+        )
 
         droplet = digitalocean.Droplet(
             token=self.key, name=droplet_name, region=region, image=self.docker_image_id,

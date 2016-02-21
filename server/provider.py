@@ -1,6 +1,7 @@
 class Provider(object):
     """Base provider class"""
     regions = {}
+    hq_root_url = "http://dev.barfoo.xyz"
 
     def __init__(self, key):
         self.key = key
