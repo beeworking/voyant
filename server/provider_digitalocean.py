@@ -1,8 +1,11 @@
 import uuid
 import digitalocean
 import os
+import falcon
 
 from urllib.request import urlopen
+from passlib.hash import bcrypt
+
 from .provider import Provider
 from .mongo import mongo
 
@@ -70,11 +73,18 @@ class ProviderDigitalOcean(Provider):
 
     def get_config(self, server_id):
         config = mongo.config.find_one({'_id': server_id})
+
         if not config:
             droplet = self.get_droplet(server_id)
             config = urlopen('https://{}:8080'.format(droplet.ip_address)).read().decode('utf-8')
-            config = {'_id': server_id, 'config': config}
-            mongo.config.insert(config)
+            config = {'_id': server_id, 'config': config, 'key': bcrypt.encrypt(self.key)}
+            mongo.config.insert_one()
+        else:
+            if not bcrypt.verify(self.key, config.get('key')):
+                raise falcon.HTTPForbidden('NOT_AUTHORIZED', 'The key was not valid.')
+
+        if 'key' in config:
+            del config['key']
 
         return config
 

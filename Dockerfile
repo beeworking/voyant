@@ -1,7 +1,7 @@
 FROM ubuntu:latest
 
 RUN apt-get update && \
-    apt-get install -y python-dev python3-pip
+    apt-get install -y python-dev python3-pip libffi-dev
 
 RUN mkdir -p /app/
 WORKDIR /app/
