@@ -66,24 +66,51 @@
                     </div>
 
                     <div class="l-box-lrg pure-u-1" v-show="key && provider">
-                        <h4>VPNs running <button v-show="region" v-on:click="create" class="pure-button" title="Launch"><i class="fa fa-rocket"></i> </button> <button v-on:click="getList" class="pure-button" title="Refresh"><i class="fa fa-refresh"></i></button></h4>
-                        <ul>
-                            <li v-for="vpn in vpns">
-                                {{ vpn.name }}
-                                ({{ vpn.status }})
-                                <a download="myvpn.ovpn"
-                                   href="api/config/download?vpn_id={{vpn.id}}&key={{key}}&provider={{provider}}"
-                                   class="pure-button button-xsmall button-success"
-                                   title="Download configuration">
-                                    <i class="fa fa-download"></i>
-                                </a>
-                                <button v-on:click="delete(vpn)"
-                                        class="pure-button button-xsmall button-error"
-                                        title="Delete server">
-                                    <i class="fa fa-trash-o"></i>
-                                </button>
-                            </li>
-                        </ul>
+                        <h4>VPNs running</h4>
+
+                        <p>
+                            <button v-show="region" v-on:click="create" class="pure-button" title="Launch">
+                                <i class="fa fa-rocket"></i>
+                            </button>
+                            <button v-on:click="getList" class="pure-button" title="Refresh">
+                                <i class="fa fa-refresh"></i>
+                            </button>
+                        </p>
+
+                        <table class="pure-table pure-table-horizontal">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Region</th>
+                                    <th>IP Address</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="vpn in vpns">
+                                    <td>{{ vpn.id }}</td>
+                                    <td>{{ vpn.name }}</td>
+                                    <td>{{ vpn.region }}</td>
+                                    <td>{{ vpn.ip_address }}</td>
+                                    <td>{{ vpn.status }}</td>
+                                    <td>
+                                        <a download="myvpn.ovpn"
+                                           href="api/config/download?vpn_id={{vpn.id}}&key={{key}}&provider={{provider}}"
+                                           class="pure-button button-xsmall button-success"
+                                           title="Download configuration">
+                                            <i class="fa fa-download"></i>
+                                        </a>
+                                        <button v-on:click="delete(vpn)"
+                                                class="pure-button button-xsmall button-error"
+                                                title="Delete server">
+                                            <i class="fa fa-trash-o"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 

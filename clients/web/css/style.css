@@ -41,13 +41,18 @@
     margin-right: auto;
     padding-left: 1em;
     padding-right: 1em;
-    max-width: 768px;
+    max-width: 60%;
 }
 
-.content.vpn label {
+.content.vpn {
     text-align: center;
 }
 
-.content.vpn select {
+.content.vpn select,table {
+    margin: auto;
+}
+
+.content.vpn input {
+    max-width: 768px;
     margin: auto;
 }
