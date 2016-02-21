@@ -45,20 +45,7 @@ body {
     margin-right: auto;
     padding-left: 1em;
     padding-right: 1em;
-    max-width: 60%;
-}
-
-.content.vpn {
-    text-align: center;
-}
-
-.content.vpn select,table {
-    margin: auto;
-}
-
-.content.vpn input {
-    max-width: 768px;
-    margin: auto;
+    width: 1200px;
 }
 
 .logo {
@@ -76,4 +63,8 @@ body {
 .pure-menu-heading {
   text-transform: none;
   padding: 0 1rem;
+}
+
+.content-head {
+  font-weight: bold;
 }
