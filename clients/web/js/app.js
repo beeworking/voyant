@@ -9,10 +9,14 @@ new Vue({
     key: '',
     provider: '',
     region: '',
-    vpns: Array.new,
-    providers: Array.new,
-    regions: Array.new,
-    checked: false
+    vpns: [],
+    providers: [],
+    regions: [],
+    checked: false,
+    loader: {
+      refresh: false,
+      create: false,
+    }
   },
   ready: function () {
     this.$set('key', localStorage._key);
@@ -34,29 +38,35 @@ new Vue({
   methods: {
 
     getList: function () {
+      this.loader.refresh = true;
       this.$http.get('', { region: this.region, key: this.key, provider: this.provider })
         .then(function (resp) {
           this.$set('vpns', resp.data);
+          this.loader.refresh = false;
         }, function (resp) {
           console.log(resp);
+          this.loader.refresh = false;
         }
       );
     },
 
     create: function () {
+      this.loader.create = true;
       this.$http.post('', { region: this.region, key: this.key, provider: this.provider })
         .then(function (resp) {
+          this.loader.create = false;
           if (this.vpns === undefined) {
             this.$set('vpns', []);
           }
           this.vpns.push(resp.data);
         }, function (resp) {
+          this.loader.create = false;
           console.log(resp);
         }
       );
     },
 
-    delete: function (vpn) {
+    remove: function (vpn) {
       this.$http.delete('', { vpn_id: vpn.id, key: this.key, provider: this.provider })
         .then(function (resp) {
           this.vpns.splice(this.vpns.indexOf(vpn), 1);

@@ -61,11 +61,11 @@
                         <h4>VPNs running</h4>
 
                         <p>
-                            <button v-show="region" v-on:click="create" class="pure-button" title="Launch">
-                                <i class="fa fa-rocket"></i>
+                            <button v-show="region" v-on:click="create" class="pure-button" :disabled="loader.create" title="Launch">
+                                <i class="fa fa-rocket" :class="{'fa-spin': loader.create}"></i>
                             </button>
-                            <button v-on:click="getList" class="pure-button" title="Refresh">
-                                <i class="fa fa-refresh"></i>
+                            <button v-on:click="getList" class="pure-button" :disabled="loader.refresh" title="Refresh">
+                                <i class="fa fa-refresh" :class="{'fa-spin': loader.refresh}"></i>
                             </button>
                         </p>
 
@@ -97,7 +97,7 @@
                                            title="Download configuration">
                                             <i class="fa fa-download"></i>
                                         </a>
-                                        <button v-on:click="delete(vpn)"
+                                        <button v-on:click="remove(vpn)"
                                                 class="pure-button button-xsmall button-error"
                                                 title="Delete server">
                                             <i class="fa fa-trash-o"></i>
