@@ -99,6 +99,7 @@ new Vue({
         this.$http.get('regions', { provider: this.provider, key: this.key })
         .then(function (resp) {
           this.$set('regions', resp.data);
+          this.getList();
           if (this.checked) {
               localStorage._key = this.key;
           }
