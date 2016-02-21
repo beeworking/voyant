@@ -54,14 +54,14 @@
                             <fieldset>
 
                                 <label for="key">API key</label>
-                                <input id="key" type="password" placeholder="Your API key">
+                                <input id="key" type="password" v-model="key" placeholder="Your API key">
 
 
                                 <label for="region">Region</label>
-                                <input id="region" type="text" placeholder="VPN Region">
+                                <input id="region" type="text" v-model="region" placeholder="VPN Region">
 
                                 <label for="provider">Provider</label>
-                                <input id="provider" type="text" placeholder="Your provider">
+                                <input id="provider" type="text" v-model="provider" placeholder="Your provider">
 
                                 <button v-on:click="create" class="pure-button">Launch</button>
                                 <button v-on:click="getList" class="pure-button">Refresh</button>
