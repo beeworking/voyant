@@ -99,7 +99,7 @@
                                         <a download="myvpn.ovpn"
                                            href="api/config/download?vpn_id={{vpn.id}}&key={{key}}&provider={{provider}}"
                                            class="pure-button button-xsmall button-success"
-                                           title="Download configuration">
+                                           title="Download configuration" v-show="vpn.status == 'active'">
                                             <i class="fa fa-download"></i>
                                         </a>
                                         <button v-on:click="remove(vpn)"
