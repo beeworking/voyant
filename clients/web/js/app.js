@@ -8,12 +8,20 @@ new Vue({
   data: {
     key: '',
     provider: '',
-    region: 'AMS2',
+    region: '',
     vpns: Array.new,
     providers: Array.new,
     regions: Array.new
   },
   ready: function () {
+    this.key = localStorage._key;
+    this.provider = localStorage.provider;
+    this.region = localStorage.region;
+
+    if (this.key || this.provider || this.region) {
+      this.remember = true;
+    }
+
     this.$http.get('providers')
       .then(function (resp) {
         this.$set('providers', resp.data);
@@ -65,6 +73,9 @@ new Vue({
         this.$http.get('regions', { provider: this.provider, key: this.key })
         .then(function (resp) {
           this.$set('regions', resp.data);
+          if (this.remember) {
+              localStorage.provider = this.provider;
+          }
         }, function (resp) {
           console.log(resp)
         }
@@ -77,10 +88,29 @@ new Vue({
         this.$http.get('regions', { provider: this.provider, key: this.key })
         .then(function (resp) {
           this.$set('regions', resp.data);
+          if (this.remember) {
+              localStorage._key = this.key;
+          }
         }, function (resp) {
           console.log(resp)
         }
       );
+    },
+    'region': function (val, oldVal) {
+        if (this.remember) {
+            localStorage.region, this.region;
+        }
+    },
+    'remember': function (val, oldVal) {
+        if (val) {
+          localStorage.provider = this.provider;
+          localStorage.region = this.region;
+          localStorage._key = this.key;
+        } else {
+          localStorage.removeItem('provider');
+          localStorage.removeItem('region');
+          localStorage.removeItem('_key');
+        }
     }
   }
 })
