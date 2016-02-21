@@ -14,12 +14,12 @@ new Vue({
     regions: Array.new
   },
   ready: function () {
-    this.key = localStorage._key;
-    this.provider = localStorage.provider;
-    this.region = localStorage.region;
+    this.$set('key', localStorage._key);
+    this.$set('provider', localStorage.provider);
+    this.$set('region', localStorage.region);
 
     if (this.key || this.provider || this.region) {
-      this.remember = true;
+      this.$set('checked', true);
     }
 
     this.$http.get('providers')
@@ -73,7 +73,7 @@ new Vue({
         this.$http.get('regions', { provider: this.provider, key: this.key })
         .then(function (resp) {
           this.$set('regions', resp.data);
-          if (this.remember) {
+          if (this.checked) {
               localStorage.provider = this.provider;
           }
         }, function (resp) {
@@ -88,7 +88,7 @@ new Vue({
         this.$http.get('regions', { provider: this.provider, key: this.key })
         .then(function (resp) {
           this.$set('regions', resp.data);
-          if (this.remember) {
+          if (this.checked) {
               localStorage._key = this.key;
           }
         }, function (resp) {
@@ -97,11 +97,11 @@ new Vue({
       );
     },
     'region': function (val, oldVal) {
-        if (this.remember) {
-            localStorage.region, this.region;
+        if (this.checked) {
+            localStorage.region = this.region;
         }
     },
-    'remember': function (val, oldVal) {
+    'checked': function (val, oldVal) {
         if (val) {
           localStorage.provider = this.provider;
           localStorage.region = this.region;
