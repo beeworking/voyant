@@ -36,37 +36,37 @@
         </div>
 
         <div class="content-wrapper">
-            <div class="content" id="app">
+            <div class="content vpn" id="app">
                 <h2 class="content-head is-center">Create your VPN</h2>
 
                 <div class="pure-g">
-                    <div class="l-box-lrg pure-u-1 pure-u-md-2-5">
+                    <div class="l-box-lrg pure-u-1">
                         <form class="pure-form pure-form-stacked">
-                            <fieldset>
-
-                                <label for="key">API key</label>
-                                <input id="key" type="password" v-model="key" placeholder="Your API key">
-
-
-                                <label for="region">Region</label>
-                                <select id="region" v-model="region">
-                                    <option v-for="region_opt in regions">{{ region_opt }}</option>
-                                </select>
-
-                                <div
+                            <div>
                                 <label for="provider">Provider</label>
                                 <select id="provider" v-model="provider">
                                     <option v-for="provider_opt in providers" v-bind:value="provider_opt.value">{{ provider_opt.text }}</option>
                                 </select>
+                            </div>
 
-                                <button v-on:click="create" class="pure-button"><i class="fa fa-rocket"></i> Launch</button>
-                                <button v-on:click="getList" class="pure-button"><i class="fa fa-refresh"></i> Refresh</button>
-                            </fieldset>
+                            <div v-show="provider">
+                                <label for="key">API key</label>
+                                <input id="key" type="password" v-model="key" placeholder="Your API key">
+                            </div>
+
+
+                            <div v-show="key">
+                                <label for="region">Region</label>
+                                <select id="region" v-model="region">
+                                    <option v-for="region_opt in regions">{{ region_opt }}</option>
+                                </select>
+                            </div>
+
                         </form>
                     </div>
 
-                    <div class="l-box-lrg pure-u-1 pure-u-md-3-5">
-                        <h4>VPNs running</h4>
+                    <div class="l-box-lrg pure-u-1" v-show="key && provider">
+                        <h4>VPNs running <button v-show="region" v-on:click="create" class="pure-button" title="Launch"><i class="fa fa-rocket"></i> </button> <button v-on:click="getList" class="pure-button" title="Refresh"><i class="fa fa-refresh"></i></button></h4>
                         <ul>
                             <li v-for="vpn in vpns">
                                 {{ vpn.name }}

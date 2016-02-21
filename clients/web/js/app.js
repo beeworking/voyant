@@ -11,8 +11,7 @@ new Vue({
     region: 'AMS2',
     vpns: Array.new,
     providers: Array.new,
-    regions: Array.new,
-    step: 0
+    regions: Array.new
   },
   ready: function () {
     this.$http.get('providers')
@@ -38,6 +37,9 @@ new Vue({
     create: function () {
       this.$http.post('', { region: this.region, key: this.key, provider: this.provider })
         .then(function (resp) {
+          if (this.vpns === undefined) {
+            this.vpns = [];
+          }
           this.vpns.push(resp.data);
         }, function (resp) {
           console.log(resp);
@@ -57,6 +59,21 @@ new Vue({
   },
   watch: {
     'provider': function (val, oldVal) {
+        if (!this.key || !val) {
+          return ;
+        }
+        this.$http.get('regions', { provider: this.provider, key: this.key })
+        .then(function (resp) {
+          this.$set('regions', resp.data);
+        }, function (resp) {
+          console.log(resp)
+        }
+      );
+    },
+    'key': function (val, oldVal) {
+        if (!this.provider || !val) {
+          return ;
+        }
         this.$http.get('regions', { provider: this.provider, key: this.key })
         .then(function (resp) {
           this.$set('regions', resp.data);

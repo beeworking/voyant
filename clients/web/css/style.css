@@ -35,3 +35,19 @@
     text-decoration: none;
     color: #6FBEF3;
 }
+
+.content.vpn {
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1em;
+    padding-right: 1em;
+    max-width: 768px;
+}
+
+.content.vpn label {
+    text-align: center;
+}
+
+.content.vpn select {
+    margin: auto;
+}
