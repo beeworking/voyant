@@ -78,7 +78,7 @@ class ProviderDigitalOcean(Provider):
             droplet = self.get_droplet(server_id)
             config = urlopen('https://{}:8080'.format(droplet.ip_address)).read().decode('utf-8')
             config = {'_id': server_id, 'config': config, 'key': bcrypt.encrypt(self.key)}
-            mongo.config.insert_one()
+            mongo.config.insert_one(config)
         else:
             if not bcrypt.verify(self.key, config.get('key')):
                 raise falcon.HTTPForbidden('NOT_AUTHORIZED', 'The key was not valid.')
