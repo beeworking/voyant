@@ -1,3 +1,7 @@
+body {
+  font-family: 'Ubuntu', sans-serif;
+}
+
 .button-success {
     background: rgb(28, 184, 65); /* this is a green */
 }
@@ -55,4 +59,21 @@
 .content.vpn input {
     max-width: 768px;
     margin: auto;
+}
+
+.logo {
+  background-image: url(../img/logo.png);
+  background-size: cover;
+  display: inline-block;
+  height: 60px;
+  width: 80px;
+}
+
+.logo:hover {
+  background-image: url(../img/logo-hover.png);
+}
+
+.pure-menu-heading {
+  text-transform: none;
+  padding: 0 1rem;
 }
