@@ -11,7 +11,8 @@ new Vue({
     region: '',
     vpns: Array.new,
     providers: Array.new,
-    regions: Array.new
+    regions: Array.new,
+    checked: false
   },
   ready: function () {
     this.$set('key', localStorage._key);
@@ -46,7 +47,7 @@ new Vue({
       this.$http.post('', { region: this.region, key: this.key, provider: this.provider })
         .then(function (resp) {
           if (this.vpns === undefined) {
-            this.vpns = [];
+            this.$set('vpns', []);
           }
           this.vpns.push(resp.data);
         }, function (resp) {
