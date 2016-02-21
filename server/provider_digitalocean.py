@@ -98,7 +98,7 @@ class ProviderDigitalOcean(Provider):
         return {
             'id': server.id,
             'name': server.name,
-            'region': server.region.get('name'),
+            'region': server.region.get('name') if type(server.region) is dict else server.region,
             'status': server.status,
             'ip_address': server.ip_address,
         }
