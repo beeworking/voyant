@@ -83,7 +83,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-show="!vpns">
+                                <tr v-show="!vpns || vpns.length === 0">
                                     <td colspan="6">No running VPN found.</td>
                                 </tr>
                                 <tr v-for="vpn in vpns">
