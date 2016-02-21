@@ -98,6 +98,7 @@ class ProviderDigitalOcean(Provider):
         return {
             'id': server.id,
             'name': server.name,
+            'region': server.region,
             'status': server.status,
             'ip_address': server.ip_address,
         }
