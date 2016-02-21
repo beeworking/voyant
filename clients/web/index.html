@@ -89,6 +89,9 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <tr v-show="!vpns">
+                                    <td colspan="6">No running VPN found.</td>
+                                </tr>
                                 <tr v-for="vpn in vpns">
                                     <td>{{ vpn.id }}</td>
                                     <td>{{ vpn.name }}</td>
