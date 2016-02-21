@@ -6,19 +6,10 @@
         <meta name="description" content="VPN AS A Service (VPNAAS)">
         <title>Voyant - VPN As A Service (VPNAAS)</title>
         <link rel="stylesheet" href="//yui.yahooapis.com/pure/0.6.0/pure-min.css">
-        <!--[if lte IE 8]>
-            <link rel="stylesheet" href="//yui.yahooapis.com/pure/0.6.0/grids-responsive-old-ie-min.css">
-            <![endif]-->
-        <!--[if gt IE 8]><!-->
-            <link rel="stylesheet" href="//yui.yahooapis.com/pure/0.6.0/grids-responsive-min.css">
-            <!--<![endif]-->
-            <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
-            <!--[if lte IE 8]>
-                <link rel="stylesheet" href="css/marketing-old-ie.css">
-                <![endif]-->
-            <!--[if gt IE 8]><!-->
-                <link rel="stylesheet" href="css/marketing.css">
-                <!--<![endif]-->
+        <link rel="stylesheet" href="//yui.yahooapis.com/pure/0.6.0/grids-responsive-min.css">
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+        <link rel="stylesheet" href="css/marketing.css">
+        <link rel="stylesheet" href="css/style.css">
     </head>
     <body>
         <div class="header">
@@ -63,8 +54,8 @@
                                 <label for="provider">Provider</label>
                                 <input id="provider" type="text" v-model="provider" placeholder="Your provider">
 
-                                <button v-on:click="create" class="pure-button">Launch</button>
-                                <button v-on:click="getList" class="pure-button">Refresh</button>
+                                <button v-on:click="create" class="pure-button"><i class="fa fa-rocket"></i> Launch</button>
+                                <button v-on:click="getList" class="pure-button"><i class="fa fa-refresh"></i> Refresh</button>
                             </fieldset>
                         </form>
                     </div>
@@ -75,8 +66,17 @@
                             <li v-for="vpn in vpns">
                                 {{ vpn.name }}
                                 ({{ vpn.status }})
-                                <a download="myvpn.ovpn" href="api/config/download?vpn_id={{vpn.id}}&key={{key}}&provider={{provider}}">Download Config</a>
-                                <button v-on:click="delete(vpn)">Destroy</button>
+                                <a download="myvpn.ovpn"
+                                   href="api/config/download?vpn_id={{vpn.id}}&key={{key}}&provider={{provider}}"
+                                   class="pure-button button-xsmall button-success"
+                                   title="Download configuration">
+                                    <i class="fa fa-download"></i>
+                                </a>
+                                <button v-on:click="delete(vpn)"
+                                        class="pure-button button-xsmall button-error"
+                                        title="Delete server">
+                                    <i class="fa fa-trash-o"></i>
+                                </button>
                             </li>
                         </ul>
                     </div>
