@@ -7,15 +7,27 @@ new Vue({
   el: '#app',
   data: {
     key: '',
-    provider: 'digitalocean',
+    provider: '',
     region: 'AMS2',
-    vpns: Array.new
+    vpns: Array.new,
+    providers: Array.new,
+    regions: Array.new,
+    step: 0
+  },
+  ready: function () {
+    this.$http.get('providers')
+      .then(function (resp) {
+        this.$set('providers', resp.data);
+      }, function (resp) {
+        console.log(resp);
+      }
+    );
   },
   methods: {
 
     getList: function () {
       this.$http.get('', { region: this.region, key: this.key, provider: this.provider })
-        .then(function(resp) {
+        .then(function (resp) {
           this.$set('vpns', resp.data);
         }, function (resp) {
           console.log(resp);
@@ -25,7 +37,7 @@ new Vue({
 
     create: function () {
       this.$http.post('', { region: this.region, key: this.key, provider: this.provider })
-        .then(function(resp) {
+        .then(function (resp) {
           this.vpns.push(resp.data);
         }, function (resp) {
           console.log(resp);
@@ -33,12 +45,23 @@ new Vue({
       );
     },
 
-    delete: function(vpn) {
-      this.$http.delete('', {vpn_id: vpn.id, key: this.key, provider: this.provider })
-        .then(function(resp) {
+    delete: function (vpn) {
+      this.$http.delete('', { vpn_id: vpn.id, key: this.key, provider: this.provider })
+        .then(function (resp) {
           this.vpns.splice(this.vpns.indexOf(vpn), 1);
         }, function (resp) {
           console.log(resp);
+        }
+      );
+    }
+  },
+  watch: {
+    'provider': function (val, oldVal) {
+        this.$http.get('regions', { provider: this.provider, key: this.key })
+        .then(function (resp) {
+          this.$set('regions', resp.data);
+        }, function (resp) {
+          console.log(resp)
         }
       );
     }

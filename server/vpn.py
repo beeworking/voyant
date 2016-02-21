@@ -1,7 +1,6 @@
 import falcon
 import hug
 
-from .mongo import mongo
 from .providers import PROVIDERS
 
 
@@ -11,7 +10,7 @@ def create_vpn(key, provider, region='EU1'):
     if not provider:
         raise falcon.HTTPBadRequest('PROVIDER_NOT_FOUND', 'The provider does not exist.')
 
-    provider = provider(key)
+    provider = provider["class"](key)
 
     region = provider.regions.get(region)
     if not region:
@@ -28,7 +27,7 @@ def list_vpns(key, provider):
     if not provider:
         raise falcon.HTTPBadRequest('PROVIDER_NOT_FOUND', 'The provider does not exist.')
 
-    provider = provider(key)
+    provider = provider["class"](key)
     return [provider.server_to_json(server) for server in provider.list_servers()]
 
 
@@ -38,7 +37,7 @@ def destroy_vpn(key, provider, vpn_id):
     if not provider:
         raise falcon.HTTPBadRequest('PROVIDER_NOT_FOUND', 'The provider does not exist.')
 
-    provider = provider(key)
+    provider = provider["class"](key)
 
     try:
         provider.destroy(vpn_id)
@@ -54,7 +53,7 @@ def get_config(key, provider, vpn_id):
     if not provider:
         raise falcon.HTTPBadRequest('PROVIDER_NOT_FOUND', 'The provider does not exist.')
 
-    provider = provider(key)
+    provider = provider["class"](key)
     config = provider.get_config(vpn_id)
 
     return config
@@ -63,3 +62,20 @@ def get_config(key, provider, vpn_id):
 @hug.get('/config/download', output=hug.output_format.text)
 def get_file(key, provider, vpn_id):
     return get_config(key, provider, vpn_id).get('config')
+
+
+@hug.get('/regions')
+def get_regions(key, provider):
+    provider = PROVIDERS.get(provider)
+    if not provider:
+        raise falcon.HTTPBadRequest('PROVIDER_NOT_FOUND', 'The provider does not exist.')
+
+    provider = provider["class"](key)
+    regions = provider.regions
+
+    return regions.keys()
+
+
+@hug.get('/providers')
+def get_providers():
+    return [{'text': val['text'], 'value': val['value']} for key, val in PROVIDERS.items()]

@@ -49,10 +49,15 @@
 
 
                                 <label for="region">Region</label>
-                                <input id="region" type="text" v-model="region" placeholder="VPN Region">
+                                <select id="region" v-model="region">
+                                    <option v-for="region_opt in regions">{{ region_opt }}</option>
+                                </select>
 
+                                <div
                                 <label for="provider">Provider</label>
-                                <input id="provider" type="text" v-model="provider" placeholder="Your provider">
+                                <select id="provider" v-model="provider">
+                                    <option v-for="provider_opt in providers" v-bind:value="provider_opt.value">{{ provider_opt.text }}</option>
+                                </select>
 
                                 <button v-on:click="create" class="pure-button"><i class="fa fa-rocket"></i> Launch</button>
                                 <button v-on:click="getList" class="pure-button"><i class="fa fa-refresh"></i> Refresh</button>
