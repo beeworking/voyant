@@ -3,7 +3,7 @@ web:
   ports:
     - "8080:8080"
   volumes:
-    - nginx.template:/etc/nginx/conf.d/nginx.template
+    - ./nginx.template:/etc/nginx/conf.d/nginx.template
     - clients/web/:/html/
   links:
     - api
